@@ -20,7 +20,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.diffplug.common.testing.NullPointerTester;
 import com.diffplug.spotless.FormatterStep;
+import com.diffplug.spotless.LazyForwardingEquality;
 import com.diffplug.spotless.ResourceHarness;
 import com.diffplug.spotless.SerializableEqualityTester;
 import com.diffplug.spotless.StepHarness;
@@ -71,5 +73,15 @@ public class EclipseFormatterStepTest extends ResourceHarness {
 				return EclipseFormatterStep.create(settingsFile, TestProvisioner.mavenCentral());
 			}
 		}.testEquals();
+	}
+
+	@Test
+	public void testNulls() throws Exception {
+		NullPointerTester tester = new NullPointerTester();
+		tester.testAllPublicConstructors(EclipseFormatterStep.class);
+		tester.testAllPublicStaticMethods(EclipseFormatterStep.class);
+		tester
+				.ignore(LazyForwardingEquality.class.getMethod("equals", Object.class))
+				.testAllPublicInstanceMethods(EclipseFormatterStep.create(createTestFile("java/eclipse/format/formatter.xml"), TestProvisioner.mavenCentral()));
 	}
 }

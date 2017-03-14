@@ -53,6 +53,9 @@ public final class EclipseFormatterStep {
 
 	/** Creates a formatter step for the given version and settings file. */
 	public static FormatterStep create(String version, File settingsFile, Provisioner provisioner) {
+		Objects.requireNonNull(version, "version");
+		Objects.requireNonNull(settingsFile, "settingsFile");
+		Objects.requireNonNull(provisioner, "provisioner");
 		return FormatterStep.createLazy(NAME,
 				() -> new State(JarState.from(MAVEN_COORDINATE + version, provisioner), settingsFile),
 				State::createFormat);
@@ -71,7 +74,7 @@ public final class EclipseFormatterStep {
 		final FileSignature settings;
 
 		State(JarState jar, File settingsFile) throws Exception {
-			this.jarState = Objects.requireNonNull(jar);
+			this.jarState = jar;
 			this.settings = FileSignature.from(settingsFile);
 		}
 

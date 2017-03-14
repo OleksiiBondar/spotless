@@ -15,11 +15,11 @@
  */
 package com.diffplug.spotless;
 
+import static java.util.stream.Collectors.joining;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * Utilities for dumping class info, helpful for
@@ -39,15 +39,7 @@ public class ReflectionUtil {
 		System.out.print(Modifier.toString(method.getModifiers()));
 		System.out.print(" " + method.getReturnType().toString());
 		System.out.print(" " + method.getName() + "(");
-		Iterator<Parameter> paramIter = Arrays.asList(method.getParameters()).iterator();
-		while (paramIter.hasNext()) {
-			Parameter param = paramIter.next();
-
-			System.out.print(param.getType().getName());
-			if (paramIter.hasNext()) {
-				System.out.print(", ");
-			}
-		}
+		System.out.print(Arrays.stream(method.getParameters()).map(p -> p.getType().getName()).collect(joining(", ")));
 		System.out.println(")");
 	}
 }

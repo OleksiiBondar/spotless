@@ -15,6 +15,8 @@
  */
 package com.diffplug.spotless;
 
+import static com.diffplug.spotless.LibPreconditions.requireElementsNonNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,7 +26,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -52,7 +53,7 @@ public final class FileSignature implements Serializable {
 	}
 
 	public static FileSignature from(Iterable<File> files) throws IOException {
-		List<File> sortedFiles = toSortedSet(Objects.requireNonNull(files));
+		List<File> sortedFiles = toSortedSet(requireElementsNonNull(files));
 
 		String[] filenames = new String[sortedFiles.size()];
 		long[] filesizes = new long[sortedFiles.size()];
